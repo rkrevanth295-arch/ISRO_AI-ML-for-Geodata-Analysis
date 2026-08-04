@@ -10,7 +10,38 @@ data visualisationtools
 
 
 ---- GEO SPATIAL TECHNOLOGY -------
-GIS spatial analysis 
-GNSS & Processing 
-Earth Observarion
-Scanning 
+GIS spatial analysis --- desktop,web/cloud, mobile/tablets 
+GNSS & Processing --- navigation/gps , indoor processing 
+Earth Observarion --- satellite remote(remote sensing satellite) , UAV/Drone , Aerial Survey
+Scanning ---- radar system 
+
+Types Of Data
+structured , semi-structured , unstructured 
+
+----Big data -----
+collection of unstructured data sets and complex that it becomes difficult to process using onhand dbm tools or traditional data processing applications 
+challenges - data capturing , search search , visualise , storage 
+
+characteristics of big data 
+voulume , veracity , velocity , variety , value 
+
+we digitally represent in GIS by vector data model,  raster data model (vector Layers 
+
+projection , scale , accuracy and resolution 
+
+relationships > spatial relationship > topological relationship, direction relationship, metric relationship 
+
+-----Types of GIS Analysis ---------
+spatial analysis
+network analysis 
+surface analysis
+raster based analysis 
+vector based analysis 
+
+
+-----Exploratory data Anaysis (EDA) in GIS
+we use python geopandas , pySA , folium , MAtplotlib
+google eart rngine -- clousd based eda 
+
+
+-geo processing with vector data --
