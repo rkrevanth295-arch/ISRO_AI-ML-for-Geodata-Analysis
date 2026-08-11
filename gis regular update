@@ -1,0 +1,231 @@
+PRODUCT REQUIREMENTS DOCUMENT (PRD)
+1. Product Overview
+SPOT is a mobile-first, dark-themed location discovery platform that helps people find, save, and share hidden real-world places through community recommendations and intelligent, mood-first discovery. Unlike Google Maps (navigation) or Yelp (reviews), SPOT is built around intent and emotion — "I want peace," "Date night," "Weekend adventure."
+
+One-Line Pitch: Discover places others haven't found yet.
+
+2. Problem Statement
+People struggle to find authentic, non-touristy places. Existing platforms:
+
+Google Maps → Navigation-focused, cluttered, shows commercial places
+
+Instagram → Aesthetic but not map-based, can't navigate to spots
+
+Yelp/Zomato → Review-heavy, ad-driven, no category depth for treks/viewpoints/study spots
+
+Word of mouth → Doesn't scale, lost in chats
+
+3. Solution
+A map-first discovery app with:
+
+🎰 Vibe Roulette — spin for random mood + spot
+
+🎭 Mood Pills — emotional shortcuts ("Date Night", "Peace & Quiet")
+
+🔥 Live/Ephemeral Spots — spots pulse based on real-time activity, fade after 72hrs
+
+💎 30 Categories — from Sunset Points to Hidden Ruins to First Date Spots
+
+📸 Photography-first cards — large images, minimal text
+
+💾 Save/Bookmark — personal collections
+
+📤 Share — growth loop via WhatsApp/Instagram
+
+4. Target Users
+Persona	Who	Goal
+Urban Explorer	18-28, students, young pros	Find hidden gems, weekend plans
+Traveler	Tourists in new cities	Local spots, not tourist traps
+Contributor	"The spot expert"	Recognition (points, badges)
+Content Creator	Foodies, photographers	Aesthetic, share-worthy locations
+5. Core Features (MVP)
+Priority	Feature	Description
+P0	Interactive Map	Dark-themed Leaflet map with custom 3D gradient pins
+P0	Category System	30 categories with emoji icons
+P0	Mood Pills	8 emotional shortcuts for quick discovery
+P0	Vibe Roulette	Slot-machine spin for random spot
+P0	Spot Cards	Photography-first cards with save/bookmark
+P0	Search	Name, description, category search
+P0	User Auth	Email signup/login with JWT
+P0	Save Spots	Bookmark spots to personal collection
+P0	Photo Upload	AWS S3 integration
+P1	Share Links	WhatsApp/Instagram share with preview
+P1	GPS Check-in	Verify user is at spot, earn points
+P1	Points & Levels	Explorer → Globe Trotter
+P2	Badges	Unlockable achievements
+P2	Travel Passport	Profile with visited spots map
+P2	AI Chatbot	Natural language spot recommendations
+6. Launch Strategy
+Phase 1 — Seed Content
+
+Manually add 161 verified + approximate Hyderabad spots across 30 categories
+
+Phase 2 — Soft Launch
+
+Share in 2-3 college WhatsApp groups
+
+Get 20-30 initial users
+
+Phase 3 — Public Launch
+
+Reddit r/Hyderabad
+
+Instagram micro-influencers
+
+College Facebook groups
+
+Goal: 100 active users by October 31, 2026
+
+7. Success Metrics
+Metric	Target
+Total Signups	500+
+Weekly Active Users	50% of signups
+User-Generated Spots	50+
+Share Rate	40%+
+8. Monetization (Post-MVP)
+Premium subscriptions (offline maps, exclusive collections)
+
+Sponsored locations (clearly labeled)
+
+Local business promotions
+
+Booking integrations
+
+9. Competitors
+Competitor	Strength	SPOT's Edge
+Google Maps	Navigation	Discovery, hidden gems, mood-based
+Instagram	Photos	Map-first, navigable, structured
+Yelp	Reviews	Emoji reactions, no ad bias
+TripAdvisor	Travel	Local + daily discovery
+Foursquare	Check-ins	Gamified + community-curated
+TECHNICAL REQUIREMENTS DOCUMENT (TRD)
+1. Technology Stack
+Layer	Technology
+Backend	Python 3.14, FastAPI, Uvicorn
+Database	PostgreSQL, SQLAlchemy ORM
+Auth	JWT (python-jose), bcrypt
+Storage	AWS S3 (photo uploads)
+Cache	Redis (planned)
+AI	OpenAI API, LangChain, RAG, FAISS (planned)
+Frontend	React 18, TypeScript, Tailwind CSS
+Map	Leaflet, React-Leaflet, CartoDB dark tiles
+Animations	Framer Motion
+Icons	Lucide React
+Routing	React Router DOM v6
+HTTP Client	Axios
+DevOps	Git, GitHub, Docker (planned), AWS EC2 (planned)
+2. Database Schema
+users
+Column	Type	Description
+id	UUID	Primary key
+username	VARCHAR(50)	Unique username
+email	VARCHAR(100)	Unique email
+hashed_password	VARCHAR	bcrypt hashed
+role	VARCHAR(10)	"user" or "admin"
+is_active	BOOLEAN	Account status
+created_at	TIMESTAMP	Signup date
+spots
+Column	Type	Description
+id	UUID	Primary key
+user_id	UUID	Creator FK
+name	VARCHAR(100)	Spot name
+category	VARCHAR(30)	Category
+description	VARCHAR(1000)	One-liner
+latitude	FLOAT	GPS lat
+longitude	FLOAT	GPS lng
+image_url	VARCHAR(500)	S3 URL
+status	VARCHAR(15)	pending/approved/rejected
+verification_status	VARCHAR(20)	verified/approximate
+created_at	TIMESTAMP	Creation date
+saved_spots
+Column	Type	Description
+id	UUID	Primary key
+user_id	UUID	User FK
+spot_id	UUID	Spot FK
+created_at	TIMESTAMP	Save date
+3. API Endpoints
+Method	URL	Auth	Description
+POST	/auth/signup	No	Create account
+POST	/auth/login	No	Login, get JWT
+GET	/users/me	Yes	Current user info
+POST	/spots/	Yes	Create spot
+GET	/spots/	No	List spots (?category=X&limit=50)
+GET	/spots/search/	No	Search (?q=cafe)
+GET	/spots/saved/mine	Yes	User's saved spots
+GET	/spots/{id}	No	Spot detail
+PUT	/spots/{id}	Yes	Update spot
+DELETE	/spots/{id}	Yes	Delete spot
+POST	/spots/{id}/save	Yes	Save spot
+DELETE	/spots/{id}/save	Yes	Unsave spot
+POST	/upload/spot/{id}	Yes	Upload photo to S3
+4. Frontend Architecture
+text
+src/
+├── App.tsx                    # Main layout, routing, splash, homepage
+├── index.tsx                  # React entry point
+├── index.css                  # Tailwind + Google Fonts + Leaflet overrides
+├── components/
+│   ├── Map.tsx                # Leaflet map with custom 3D pins
+│   └── SpotCard.tsx           # Photography-first card component
+├── pages/
+│   ├── Login.tsx              # Dark themed login form
+│   └── Signup.tsx             # Dark themed signup form
+├── services/
+│   ├── api.ts                 # Axios instance + JWT interceptor
+│   └── authService.ts         # Auth functions
+└── context/
+    └── AuthContext.tsx         # User auth state
+5. Color System
+Token	Hex	Usage
+Background	#05090B	App background
+Cards	#0D171B	Card surfaces
+Primary	#18F5A4	Neon mint green accent
+Secondary	#00C98B	Gradient pair
+Text	#F5F7F6	Primary text
+Muted	#8B9998	Subtitles, captions
+Borders	rgba(255,255,255,0.08)	Dividers
+6. Spot Categories (30 Total)
+Sunset Points, Late Night Runs, Cheap Thrills, Aesthetic AF, Green Escape, Old City Secrets, Creative Corners, Bike Points, Chill & Study, Underrated AF, Group Hangout, Monsoon Special, Local Bazaar, Street Food Trail, Waterside, Adrenaline Zone, Late Night Eats, Culture Fix, City Lights View, Pet-Friendly, Gaming Zones, Weekend Getaway, Peace Out, Drink & Chill, Movie Nights, Skate Spots, Instagram Bloom, Hidden Ruins, First Date Spots
+
+7. Mood Pills (8 Emotional Shortcuts)
+Pill	Category Mapping
+🌅 Sunset Chaser	Sunset Points
+💕 Date Night	First Date Spots
+🧘 Peace & Quiet	Peace Out
+🍜 Food Trail	Street Food Trail
+🌙 Late Night	Late Night Runs
+🎢 Adventure	Adrenaline Zone
+💎 Hidden Gems	Hidden Ruins
+📚 Study Mode	Chill & Study
+8. Features Map
+text
+App Startup
+    │
+    ▼
+Splash Screen (2.5s)
+    │
+    ▼
+Home Page
+    ├── Search Bar
+    ├── 🎰 Vibe Roulette Button
+    ├── Mood Pills (8)
+    ├── Expandable Categories (30)
+    ├── New to Hyderabad Card
+    ├── Curated Feed + SpotCards
+    └── Bottom Nav
+         ├── Explore (Map)
+         ├── Search
+         ├── + Add Spot
+         ├── Saved
+         └── Profile
+9. Current Status
+Component	Status
+Backend API	✅ 100% complete
+Database	✅ 161 spots seeded
+Auth (JWT)	✅ Working
+Photo Upload (S3)	✅ Working
+Frontend (React)	🔄 In progress
+AI Chatbot	🔜 Planned
+Docker/Deploy	🔜 Planned
+Launch	🎯 October 2026
+End of Document.
