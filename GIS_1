@@ -20,7 +20,16 @@ structured , semi-structured , unstructured
 
 ----Big data -----
 collection of unstructured data sets and complex that it becomes difficult to process using onhand dbm tools or traditional data processing applications 
-challenges - data capturing , search search , visualise , storage 
+challenges - data capturing , search search , visualise , storage  , scale , accuracy and resolution 
+
+relationships > spatial relationship > topological relationship, direction relationship, metric relationship 
+
+-----Types of GIS Analysis ---------
+spatial analysis
+network analysis 
+surface analysis
+raster based analysis 
+vector based a
 
 characteristics of big data 
 voulume , veracity , velocity , variety , value 
