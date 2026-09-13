@@ -38,7 +38,12 @@ surface analysis
 raster based analysis 
 vector based analysis 
 
-
+...overview of GIS technology... 
+1 spatial data models
+2 data collection methods 
+3 data cleaning 
+4 data analytics 
+5 exploratory data ana
 -----Exploratory data Anaysis (EDA) in GIS
 we use python geopandas , pySA , folium , MAtplotlib
 google eart rngine -- clousd based eda 
